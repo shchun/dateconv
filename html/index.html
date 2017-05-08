@@ -1,0 +1,104 @@
+<html>
+<head>
+	<title> Date Conv </title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+</head>
+<body>
+   <div id="log-toolbar" style="width:800px">
+     <div class="col-5" style="width:800px">
+        <div class="form-horizontal" style="width:500px">
+          <div class="form-group" style="width:500px">
+            <label for="#from" class="col-2 control-label" style="width:50px">Start</label>
+              <div class="col-3" style="width:150px">
+                <input id="from" type="text" placeholder="from (ms-epoch, e.g., 1234567890123)" class="form-control input-sm">
+              </div>
+              <div class="col-3 controls input-group date" style="width:360px">
+                <input id="datetime_from" type="text" style="width:360px" class="form-control input-sm">
+              </div>
+          </div>
+          <div class="form-group" style="width:500px">
+            <label for="#until" class="col-2 control-label" style="width:50px">Finish</label>
+            <div class="col-3" style="width:150px">
+              <input id="until" type="text" placeholder="until (ms-epoch, e.g., 1234567890123)" class="form-control input-sm">
+            </div>
+            <div class="col-3 controls input-group date" style="width:360px">
+              <input id="datetime_until" type="text" style="width:360px" class="form-control input-sm">
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
+
+<script type="text/javascript">
+
+$(document).ready(function() { 
+    var from_, until_;
+    var str;
+    var datetime_format = "YYYY-MM-DD HH:mm:ss.SSS [GMT]ZZ";
+	
+	from_ = Date.now() - 3600000;
+	until_ = Date.now();
+
+	$("#log-toolbar #from").val(from_);
+	$("#log-toolbar #until").val(until_);
+    $("#datetime_from").val(function() {
+       return moment(parseInt($("#from").val())).format(datetime_format);
+    });
+
+    $("#datetime_until").val(function() {
+         return moment(parseInt($("#until").val())).format(datetime_format);
+    });
+
+    console.log("Hello 1");
+    $("#log-toolbar input[id='datetime_from']").change(function(event) {
+        str = moment($("#datetime_from").val()).valueOf();
+        $("#log-toolbar #from").val(str);
+    });
+
+    $("#log-toolbar input[id='datetime_until']").change(function(event) {
+        str = moment($("#datetime_until").val()).valueOf();
+        $("#log-toolbar #until").val(str);
+    });
+    $("#log-toolbar input[id='from']").change(function(event) {
+      var varReg = /^[0-9]+$/
+	console.log("from 1");
+      if(!varReg.test($("#from").val())) {
+          alert('Start value is incorrect! please try input again.')
+          return
+      }
+      if($("#from").val().length != 13){
+          alert('Start value is incorrect! please try input again.')   
+          return
+      }
+
+      str = moment(parseInt($("#from").val())).format(datetime_format);
+      $("#datetime_from").val(str);
+    });
+
+    $("#log-toolbar input[id='until']").change(function(event) {
+      var varReg = /^[0-9]+$/
+	console.log("until 1");
+      if(!varReg.test($("#until").val())) {
+          alert('Finish value is incorrect! please try input again.')
+          return
+      }
+      if($("#until").val().length != 13){
+          alert('Finish value is incorrect! please try input again.')   
+          return
+      }
+
+      str = moment(parseInt($("#until").val())).format(datetime_format);
+      $("#datetime_until").val(str);
+    });
+
+	console.log("Hello 2");
+  });
+</script>
+</body>
+</html>
